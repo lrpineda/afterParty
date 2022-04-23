@@ -5,10 +5,10 @@
 } 
 .heroBg {
      background-image: url( "../images/concert-crowd.jpeg") !important;
-     height: 700px !important;
-     width: 700px !important;
+     /* height: 700px !important;
+     width: 700px !important; */
     background-position: center !important;
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    justify-content: center; */
 
 }

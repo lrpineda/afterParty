@@ -1,6 +1,7 @@
 let searchButton = document.querySelector("#search-button");
 let searchBox = document.querySelector("#search-box");
 let results = document.querySelector("#results");
+let sass = document.querySelector("#sass");
 
 // Clicking the search button and fetching the events
 searchButton.addEventListener("click", function (event) {
@@ -10,6 +11,7 @@ searchButton.addEventListener("click", function (event) {
     let fetchArtist = artistArray.join("-");
     let seatGeekURL = `https://api.seatgeek.com/2/events?performers.slug=${fetchArtist}&client_id=MjY2Mjk4MjN8MTY1MDM4NDgyMi4wNDE2NTU1`;
 
+    results.innerHTML = "";
     let eventResults = document.createElement("div");
     results.appendChild(eventResults);
     eventResults.classList.add("event-results");
@@ -22,39 +24,40 @@ searchButton.addEventListener("click", function (event) {
             console.log(data);
 
             // // If no events are avaliable or they give invalid input
-            // if (data.events.length = 0) {
-            //     console.log("Hey!");
-            //     let noEventsWarning = document.createElement("h2");
-            //     eventResults.appendChild(noEventsWarning);
-            //     noEventsWarning.innerText = ("No Upcoming Events For This Performer, Check Your Spelling or Try Someone New!");
-            // }
+            if (data.events.length == 0) {
+                let noEventsWarning = document.createElement("h2");
+                noEventsWarning.innerText = ("No Upcoming Events For This Performer, Check Your Spelling or Try Someone New!");eventResults.appendChild(noEventsWarning);
+            }
             // // If events are available
-            // else {
-            //     console.log("Hi!")
-            //     for (i = 0; i < 6 || i < data.events.length; i++) {
-            //         let newEvent = document.createElement("div");
-            //         eventResults.appendChild(newEvent);
+            else {
+                for (i = 0; i < data.events.length; i++) {
+                    let newEvent = document.createElement("div");
+                    newEvent.classList.add("new-event");
+                    eventResults.appendChild(newEvent);
 
-            //         let eventHeader = document.createElement("h2");
-            //         newEvent.appendChild(eventHeader);
-            //         eventHeader.innerText = artist;
+                    let eventHeader = document.createElement("h2");
+                    let title = data.events[i].title;
+                    eventHeader.innerText = title;
+                    newEvent.appendChild(eventHeader);
+                    
+                    let eventLocation = document.createElement("p");
+                    newEvent.appendChild(eventLocation);
+                    let location = data.events[i].venue.name;
+                    eventLocation.innerText = ("Where: " + location);
 
-            //         let eventLocation = document.createElement("p");
-            //         newEvent.appendChild(eventLocation);
-            //         let location = "location"
-            //         eventLocation.innerText = ("Where: " + location)
+                    let eventPrice = document.createElement("p");
+                    newEvent.appendChild(eventPrice);
+                    let price = data.events[i].stats.average_price;
+                    eventPrice.innerText = ("Average Ticket Price: $" + price);
 
-            //         let eventPrice = document.createElement("p");
-            //         newEvent.appendChild(eventPrice);
-            //         let price = "price"
-            //         eventPrice.innerText = ("Price: " + price)
-
-            //         let eventDate = document.createElement("p");
-            //         newEvent.appendChild(eventDate);
-            //         let date = "date"
-            //         eventDate.innerText = ("When: " + date)
-            //     }
-            // }
+                    let eventDate = document.createElement("p");
+                    newEvent.appendChild(eventDate);
+                    let dateLong = data.events[i].datetime_utc;
+                    let dateArray = dateLong.split("T")
+                    let date = dateArray[0];
+                    eventDate.innerText = ("When: " + date);
+                }
+            }
         })
 
 });

@@ -1,3 +1,7 @@
+.new-event {
+    border: solid black 3px;
+    margin: 10px;
+}
 .arrow{
 
      height: 400px !important;

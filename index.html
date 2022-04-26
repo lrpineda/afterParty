@@ -1,70 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
-    />
-    <link rel="stylesheet" href="assets/css/style.css" />
 
-    <title>After Party</title>
-  </head>
-  <body>
-    <section class="is-flex hero columns is-large ">
-      <header class="is-flex hero-head is-justify-content-center">
-        <h1
-          class="is-flex is-size-1 p-6 has-background-info has-text-black column is-justify-content-center"
-        >
-          After Party!
-        </h1>
-      </header>
-      <div class="is-flex hero-body heroBg">
-        <div
-          class="container has-text-centered is-fluid field columns is-justify-content-center"
-        >
-          <!-- <img
-            class="is-flex"
-            src="./assets/images/concert-crowd.jpeg"
-            alt="crowd at concert"
-          /> -->
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" />
+  <script src="https://kit.fontawesome.com/f1e2e0e591.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://use.typekit.net/plp1ivz.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
 
-          <input
-            class="is-size-3 is-flex input column is-3 mr-3"
-            type="text"
-            value="Search For Event"
-          />
-          <button class="button is-flex is-warning is-size-3" type="submit">
-            Party On!
-          </button>
+  <title>After Party</title>
+</head>
+
+<body>
+  <!-- is-large at the begining but switch to is-medium when search -->
+  <section class="is-flex hero columns is-large">
+    <header class="is-flex hero-head is-small is-justify-content-center">
+      <h1 class="is-flex is-size-1 pt-6 has-background-info headerBg column is-justify-content-center">
+        After-<span class="blue">Party</span>
+      </h1>
+    </header>
+    <div class="is-flex hero-body heroBg">
+      <div class="container has-text-centered is-fluid field columns is-justify-content-center">
+        <input class="input is-large column is-three-fifths mr-3" type="text" placeholder="Search For Event" />
+        <button class="button is-flex is-warning is-large" type="submit">
+          Party On!
+        </button>
+      </div>
+    </div>
+
+    <div class=" hero-foot is-flex is-justify-content-center pt-5">
+      <i class="fas fa-10x fa-solid fa-angles-up"></i>
+    </div>
+    <section class="is-flex is-justify-content-center" id="results">
+      <h2 class="is-flex is-size-1 has-text-black column is-12 is-justify-content-center" id="sass">
+        Get Your Search On!
+      </h2>
+    </section>
+    <!-- <div class="columns is-1 is-justify-content-center"> -->
+      <!-- <div class=" column is-one-quarter pt-6">
+        <div class="section p-1">
+          <div class="card">
+            <div class="card-header">
+              <p class="card-header-title">Hotel</p>
+            </div>
+            <div class="card-content">
+              <div class="content">Content</div>
+            </div>
+          </div>
+          <br>
+          <div class="card ">
+            <div class="card-header"><p class="card-header-title">Header</p></div>
+            <div class="card-content"><div class="content">Content</div></div>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- Event/hotel -->
+      <!-- <div class="column is-three-fifths pt-6">
+        <div class="section p-1">
+          <div class="card">
+            <div class="card-header">
+              <p class="card-header-title">
+                Hyatt Place Salt Lake City Downtown / The Gateway
+              </p>
+            </div>
+            <div class="card-content">
+              <div class="columns">
+                <div class="column card-image is-one-quarter">
+                  <figure class="imageSize">
+                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image" />
+                  </figure>
+                </div>
+                <div class="column content">
+                  <div class="is-justify-content-left">
+                    <ul>
+                      <li>0.2 miles from Event</li>
+                      <li>2 Queen Beds</li>
+                      <li>Good Breakfast included</li>
+                    </ul>
+                  </div>
+                  <div class="buttons is-justify-content-right">
+                    <button class="button is-link">See Avilability</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    
-    
-      <div
-        class=" hero-foot is-flex is-justify-content-center has-background-primary"
-      >
-        <img
-          src="./assets/images/Arrow.png"
-          alt="arrow image"
-          class="is-flex arrow p-6"
-        />
-      </div>
-      <section class="is-flex is-justify-content-center" id="results">
-        <h2
-          class=" p-6 is-flex is-size-1 has-background-success-dark has-text-black column is-12 is-justify-content-center"
-          id="sass"
-        >
-          Get Your Search On!
-        </h2>
-      </section>
-    </div>
+    </div> -->
   </section>
-    
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="./assets/js/script.js"></script>
-  </body>
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        &copy; 2022 <strong>AfterParty</strong> by
+        <a href="https://github.com/clarkspencerc">Spencer Clark</a>,
+        <a href="https://github.com/Alathrop2">Alex Lathrop</a>,
+        <a href="https://github.com/lrpineda">Luis Pineda</a> &
+        <a href="https://github.com/TessShearer">Tess Shearer</a>.
+      </p>
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="./assets/js/script.js"></script>
+</body>
+
 </html>

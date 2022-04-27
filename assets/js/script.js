@@ -63,6 +63,7 @@ searchButton.addEventListener("click", function (event) {
         })
     saveSearches(artist);
     loadSearched(); 
+    autofill(); 
 });
 let coordinates = {
     lat: "40.76924",
@@ -126,10 +127,15 @@ let loadSearched = function(){
 
     return searched; 
 };
- 
-$("#search-box").autocomplete({
-    source: loadSearched()
-},{
-    autoFocus:true,
-    delay:0
-});
+
+let autofill = function(){
+    $("#search-box").autocomplete({
+        source: loadSearched()
+    }, {
+        autoFocus: true,
+        delay: 0
+    });
+
+};
+
+autofill(); 

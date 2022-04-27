@@ -2,6 +2,7 @@ let searchButton = document.querySelector("#search-button");
 let searchBox = document.querySelector("#search-box");
 let results = document.querySelector("#results");
 let sass = document.querySelector("#sass");
+let searched = [];
 
 
 // Clicking the search button and fetching the events
@@ -61,6 +62,7 @@ searchButton.addEventListener("click", function (event) {
             }
         })
     saveSearches(artist);
+    loadSearched(); 
 });
 let coordinates = {
     lat: "40.76924",
@@ -94,7 +96,7 @@ let getHotelData = function (coordinates) {
 
 // getHotelData(coordinates);
 
-let searched = [];
+
 
 // create local storage function pass in searchbox field 
 let saveSearches = function (artist) {
@@ -110,14 +112,19 @@ let saveSearches = function (artist) {
 };
 
 let loadSearched = function(){
-    let savedSearches = localStorage.getItem("searches")
+     searched = localStorage.getItem("searches")
 
-    if(!savedSearches){
-        return false; 
-    }
-    savedSearches = JSON.parse(savedSearches); 
-    console.log(savedSearches);
-    return savedSearches; 
+    // if(!savedSearches){
+    //     return false; 
+    // }
+    searched = JSON.parse(searched); 
+    // console.log(savedSearches);
+
+    // for (var i = 0; i < savedSearches.length; i++){
+    //     searched.push(savedSearches[i]); 
+    // }
+
+    return searched; 
 };
  
 $("#search-box").autocomplete({

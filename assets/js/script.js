@@ -2,6 +2,7 @@ let searchButton = document.querySelector("#search-button");
 let searchBox = document.querySelector("#search-box");
 let results = document.querySelector("#results");
 let sass = document.querySelector("#sass");
+let arrow = document.querySelector("#arrow");
 
 // Clicking the search button and fetching the events
 searchButton.addEventListener("click", function (event) {
@@ -11,6 +12,7 @@ searchButton.addEventListener("click", function (event) {
     let fetchArtist = artistArray.join("-");
     let seatGeekURL = `https://api.seatgeek.com/2/events?performers.slug=${fetchArtist}&client_id=MjY2Mjk4MjN8MTY1MDM4NDgyMi4wNDE2NTU1`;
 
+    arrow.remove();
     results.innerHTML = "";
     let eventResults = document.createElement("div");
     results.appendChild(eventResults);
@@ -42,20 +44,41 @@ searchButton.addEventListener("click", function (event) {
                     
                     let eventLocation = document.createElement("p");
                     newEvent.appendChild(eventLocation);
-                    let location = data.events[i].venue.name;
+                    let location = data.events[i].venue.display_location;
                     eventLocation.innerText = ("Where: " + location);
-
-                    let eventPrice = document.createElement("p");
-                    newEvent.appendChild(eventPrice);
-                    let price = data.events[i].stats.average_price;
-                    eventPrice.innerText = ("Average Ticket Price: $" + price);
+                    
+                    let eventVenue = document.createElement("p");
+                    newEvent.appendChild(eventVenue);
+                    let venue = data.events[i].venue.name;
+                    eventVenue.innerText = ("Venue: " + venue);
 
                     let eventDate = document.createElement("p");
                     newEvent.appendChild(eventDate);
                     let dateLong = data.events[i].datetime_utc;
-                    let dateArray = dateLong.split("T")
+                    let dateArray = dateLong.split("T");
                     let date = dateArray[0];
                     eventDate.innerText = ("When: " + date);
+
+                    // let eventPrice = document.createElement("p");
+                    // newEvent.appendChild(eventPrice);
+                    // let price = data.events[i].stats.average_price;
+                    // eventPrice.innerText = ("Average Ticket Price: $" + price);
+
+                    let eventPriceRange = document.createElement("p");
+                    newEvent.appendChild(eventPriceRange);
+                    let low = data.events[i].stats.lowest_price;
+                    let high = data.events[i].stats.highest_price;
+                    eventPriceRange.innerText = ("Ticket Price Range: $" + low + " - $" + high);
+
+                    let eventLink = document.createElement("div");
+                    newEvent.appendChild(eventLink); 
+                    var link = document.createElement('a');
+                    var linkText = document.createTextNode("Get Tickets Here!");
+                    link.appendChild(linkText);
+                    link.title = "Get Tickets Here!";
+                    link.href = data.events[i].url;
+                    eventLink.appendChild(link);
+
                 }
             }
         })

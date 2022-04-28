@@ -15,7 +15,7 @@
 
 <body>
   <!-- is-large at the begining but switch to is-medium when search -->
-  <section class="is-flex hero columns is-large">
+  <section class="is-flex hero columns is-fullheight" id="hero">
     <header class="is-flex hero-head is-small is-justify-content-center">
       <h1 class="is-flex is-size-1 pt-6 has-background-info headerBg column is-justify-content-center">
         After-<span class="blue">Party</span>
@@ -24,73 +24,26 @@
     <div class="is-flex hero-body heroBg">
       <div class="container has-text-centered is-fluid field columns is-justify-content-center">
         <input class="input is-large column is-three-fifths mr-3"  type="text" id="search-box" placeholder="Search For Performer" />
-        <button class="button is-flex is-warning is-large" id="search-button" type="submit">
-          Party On!
-        </button>
+        <br />
+        <div class="level">
+          <button class="button is-warning is-large " id="search-button" type="submit">
+            Party On!
+          </button>
+        </div>
+        
       </div>
     </div>
-
-    <div class=" hero-foot is-flex is-justify-content-center pt-5" id="arrow">
-      <i class="fas fa-10x fa-solid fa-angles-up"></i>
-    </div>
-    <section class="is-flex is-justify-content-center" id="results">
-      <h2 class="is-flex is-size-1 has-text-black column is-12 is-justify-content-center" id="sass">
+    
+  </section>
+  <section class="main-content columns is-variable is-0 is-fullheight" id="main">
+    <div class="container column" id="events">
+      <div class=" hero-foot is-flex is-justify-content-center pt-5" id="arrow">
+        <i class="fas fa-10x fa-solid fa-angles-up"></i>
+      </div>
+      <h2 class="title is-1 has-text-centered" id="sass">
         Get Your Search On!
       </h2>
-    </section>
-    <!-- <div class="columns is-1 is-justify-content-center"> -->
-      <!-- <div class=" column is-one-quarter pt-6">
-        <div class="section p-1">
-          <div class="card">
-            <div class="card-header">
-              <p class="card-header-title">Hotel</p>
-            </div>
-            <div class="card-content">
-              <div class="content">Content</div>
-            </div>
-          </div>
-          <br>
-          <div class="card ">
-            <div class="card-header"><p class="card-header-title">Header</p></div>
-            <div class="card-content"><div class="content">Content</div></div>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- Event/hotel -->
-      <!-- <div class="column is-three-fifths pt-6">
-        <div class="section p-1">
-          <div class="card">
-            <div class="card-header">
-              <p class="card-header-title">
-                Hyatt Place Salt Lake City Downtown / The Gateway
-              </p>
-            </div>
-            <div class="card-content">
-              <div class="columns">
-                <div class="column card-image is-one-quarter">
-                  <figure class="imageSize">
-                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image" />
-                  </figure>
-                </div>
-                <div class="column content">
-                  <div class="is-justify-content-left">
-                    <ul>
-                      <li>0.2 miles from Event</li>
-                      <li>2 Queen Beds</li>
-                      <li>Good Breakfast included</li>
-                    </ul>
-                  </div>
-                  <div class="buttons is-justify-content-right">
-                    <button class="button is-link">See Avilability</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
+    </div>
   </section>
   <footer class="footer">
     <div class="content has-text-centered">

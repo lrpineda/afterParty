@@ -151,9 +151,10 @@ let displayEvents = function (Edata) {
 
     
 };
-// create and display the hotel cards
+// create and display the hotel section
 let displayHotelData = function (Hdata) {
     let mainSection = $("#main");
+// creating header/sections/outline
     if (mainSection) {
         let Hcontainer = $("<div>")
             .addClass("container column is-8");
@@ -162,10 +163,10 @@ let displayHotelData = function (Hdata) {
         let Htitle = $("<h1>")
             .addClass("subtitle is-4")
             .text("Please select a hotel:");
-        
         Hsection.append(Htitle);
         Hcontainer.append(Hsection);
 
+// Creating hotel cards
         for (let i = 0; i < 10; i++) {
             let HCard = $("<div>")
                 .addClass("card");

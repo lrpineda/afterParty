@@ -1,10 +1,10 @@
 let searchButton = document.querySelector("#search-button");
 let searchBox = document.querySelector("#search-box");
 let heroEl = document.querySelector("#hero");
-let results = document.querySelector("#events");
+let main = document.querySelector("#main");
+let results = document.querySelector("#results");
 let sass = document.querySelector("#sass");
 let arrow = document.querySelector("#arrow");
-let main = document.querySelector("#main");
 
 // Clicking the search button or pressing enter - search function at the bottom of js
 searchButton.addEventListener("click", search);
@@ -155,7 +155,7 @@ let displayEvents = function (Edata) {
 let displayHotelData = function (Hdata) {
     let mainSection = $("#main");
     if (mainSection) {
-        let Hcontainter = $("<div>")
+        let Hcontainer = $("<div>")
             .addClass("container column is-8");
         let Hsection = $("<div>")
             .addClass("section");
@@ -164,7 +164,7 @@ let displayHotelData = function (Hdata) {
             .text("Please select a hotel:");
         
         Hsection.append(Htitle);
-        Hcontainter.append(Hsection);
+        Hcontainer.append(Hsection);
 
         for (let i = 0; i < 10; i++) {
             let HCard = $("<div>")
@@ -252,7 +252,7 @@ let displayHotelData = function (Hdata) {
             HCard.append(HCardContent);
             Hsection.append(HCard);
         }
-        mainSection.append(Hcontainter);
+        mainSection.append(Hcontainer);
         
     }
     else {
@@ -300,9 +300,10 @@ let getHotelData = function (coordinates, checkInDate) {
 $(document).on("click", "#confirm-event", function (e) {
     e.preventDefault();
 
-    e.target.innerText = "Click here to select different event for this artist";
-
+// Turns confirm event button into functioning new event button
+    e.target.innerText = "New Event";
     $('#confirm-event').attr("onclick","search()")
+
     // Get the event Section 
     let eventSection = $(this)
         .parent()
@@ -334,7 +335,7 @@ $(document).on("click", "#confirm-event", function (e) {
     };
 
     // Re-create event section 
-    let mainDiv = document.querySelector("#events");
+    let mainDiv = document.querySelector("#results");
     let sectionTxt = $("<h1>")
         .addClass("title")
         .text("Event:");
@@ -367,9 +368,6 @@ function search () {
         // remove previous HTML and create section for events
         arrow.remove();
         results.innerHTML = "";
-        let eventResults = document.createElement("div");
-        results.appendChild(eventResults);
-        eventResults.classList.add("section","is-medium");
     
         // Fetch SeatGeek
         fetch(seatGeekURL)

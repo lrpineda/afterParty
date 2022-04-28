@@ -4,53 +4,22 @@ let heroEl = document.querySelector("#hero");
 let results = document.querySelector("#events");
 let sass = document.querySelector("#sass");
 let arrow = document.querySelector("#arrow");
+let main = document.querySelector("#main");
 
-$("#confirm-event").on("click", function () {
-    console.log("clicked");
-});
+// Clicking the search button or pressing enter - search function at the bottom of js
+searchButton.addEventListener("click", search);
 
-// Clicking the search button and fetching the events
-searchButton.addEventListener("click", function (event) {
-    event.preventDefault();
-    let artist = searchBox.value;
-    let artistArray = artist.split(" ");
-    let fetchArtist = artistArray.join("-");
-    let seatGeekURL = `https://api.seatgeek.com/2/events?performers.slug=${fetchArtist}&client_id=MjY2Mjk4MjN8MTY1MDM4NDgyMi4wNDE2NTU1`;
+searchBox.addEventListener("keyup", function(event){
+    if(event.keyCode === 13){
+        search()
+    }
+})
 
-    arrow.remove();
-    results.innerHTML = "";
-    let eventResults = document.createElement("div");
-    results.appendChild(eventResults);
-    eventResults.classList.add("section","is-medium");
-
-    fetch(seatGeekURL)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data);
-
-            // If no events are avaliable or they give invalid input
-            if (data.events.length == 0) {
-                let noEventsWarning = document.createElement("h2");
-                noEventsWarning.classList.add("title","is-4","has-text-centered");
-                noEventsWarning.innerText = ("No Upcoming Events For This Performer, Check Your Spelling or Try Someone New!");eventResults.appendChild(noEventsWarning);
-            }
-            // If events are available
-            else {
-                displayEvents(data);
-            }
-        })
-
-});
-
+// Creates and displays the events column
 let displayEvents = function (Edata) {
     // Making the hero section smaller to fit the events
     heroEl.classList.remove("is-fullheight");
     heroEl.classList.add("is-small");
-
-    // Clearing sass and arrow or previous results
-    results.innerHTML = "";
 
     // Creating the div for the events
     let eventResults = document.createElement("div");
@@ -122,7 +91,7 @@ let displayEvents = function (Edata) {
 
         // Ticket Price Range
         let eventPriceRangeEl = document.createElement("p");
-        eventPriceRangeEl.innerText = ("Ticket Price Range: $" + Edata.events[i].stats.lowest_price + " - $" + Edata.events[i].stats.highest_price);
+        eventPriceRangeEl.innerText = "Ticket Price Range: $" + (Edata.events[i].stats.lowest_price || "N/A") + " - $" + (Edata.events[i].stats.highest_price || "N/A");
 
         // Link to Get Tickets
         let eventLinkEl = document.createElement("div");
@@ -182,7 +151,7 @@ let displayEvents = function (Edata) {
 
     
 };
-
+// create and display the hotel cards
 let displayHotelData = function (Hdata) {
     let mainSection = $("#main");
     if (mainSection) {
@@ -328,7 +297,12 @@ let getHotelData = function (coordinates, checkInDate) {
 };
 
 // Event listener after confirming a specific event
-$(document).on("click", "#confirm-event", function () {
+$(document).on("click", "#confirm-event", function (e) {
+    e.preventDefault();
+
+    e.target.innerText = "Click here to select different event for this artist";
+
+    $('#confirm-event').attr("onclick","search()")
     // Get the event Section 
     let eventSection = $(this)
         .parent()
@@ -384,3 +358,37 @@ let randomSass = {};
 let pastSearches = {};
 
 
+function search () {
+        let artist = searchBox.value;
+        let artistArray = artist.split(" ");
+        let fetchArtist = artistArray.join("-");
+        let seatGeekURL = `https://api.seatgeek.com/2/events?performers.slug=${fetchArtist}&client_id=MjY2Mjk4MjN8MTY1MDM4NDgyMi4wNDE2NTU1`;
+    
+        // remove previous HTML and create section for events
+        arrow.remove();
+        results.innerHTML = "";
+        let eventResults = document.createElement("div");
+        results.appendChild(eventResults);
+        eventResults.classList.add("section","is-medium");
+    
+        // Fetch SeatGeek
+        fetch(seatGeekURL)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                console.log(data);
+    
+                // If no events are avaliable or they give invalid input
+                if (data.events.length == 0) {
+                    let noEventsWarning = document.createElement("h2");
+                    noEventsWarning.classList.add("title","is-4","has-text-centered");
+                    noEventsWarning.innerText = ("No Upcoming Events For This Performer, Check Your Spelling or Try Someone New!");eventResults.appendChild(noEventsWarning);
+                }
+                // If events are available
+                else {
+                    displayEvents(data);
+                }
+            })
+    
+    }

@@ -375,7 +375,20 @@ $('#switch-event').attr("onclick","search()");
 let saveSearches = function (artist) {
     localStorage.setItem("searches", searched);
     if (artist !== "") {
-        searched.push(artist);
+        //makes storage inputs uniform and first letter capitalized 
+        let inputname = artist.trim().toLowerCase(); 
+        let inputnames = inputname.split(" "); 
+        for( let i = 0; i < inputnames.length; i++){
+            inputnames[i] = inputnames[i][0].toUpperCase() + inputnames[i].substr(1); 
+        }
+
+        let capitalizedArtist = inputnames.join(" "); 
+        // only adds new searches - prevents duplicates in local storage
+        if(!searched.includes(capitalizedArtist)){
+
+            searched.push(capitalizedArtist);
+        }
+        // saves to local storage
         localStorage.setItem("searches", JSON.stringify(searched));
     }
     // test 

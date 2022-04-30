@@ -101,9 +101,6 @@ let getHotelData = function (coordinates) {
 
 // create local storage function pass in searchbox field 
 let saveSearches = function (artist) {
-    
-
-    // add parameter to recent searches array
     if (artist != "") {
         searched.push(artist);
         localStorage.setItem("searches", JSON.stringify(searched));
@@ -113,18 +110,8 @@ let saveSearches = function (artist) {
 };
 
 let loadSearched = function(){
-     searched = localStorage.getItem("searches")
-
-    // if(!savedSearches){
-    //     return false; 
-    // }
+    searched = localStorage.getItem("searches")
     searched = JSON.parse(searched); 
-    // console.log(savedSearches);
-
-    // for (var i = 0; i < savedSearches.length; i++){
-    //     searched.push(savedSearches[i]); 
-    // }
-
     return searched; 
 };
 

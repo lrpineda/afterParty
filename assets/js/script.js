@@ -373,7 +373,8 @@ $('#switch-event').attr("onclick","search()");
 
 // create local storage function pass in searchbox field 
 let saveSearches = function (artist) {
-    if (artist != "") {
+    localStorage.setItem("searches", searched);
+    if (artist !== "") {
         searched.push(artist);
         localStorage.setItem("searches", JSON.stringify(searched));
     }
@@ -388,13 +389,17 @@ let loadSearched = function(){
 };
 
 let autofill = function(){
-    $("#search-box").autocomplete({
-        source: loadSearched()
-    }, {
-        autoFocus: true,
-        delay: 0
-    });
-
+   
+    if(localStorage.getItem("searches")){
+        $("#search-box").autocomplete({
+                source: loadSearched()
+            }, {
+                autoFocus: true,
+                delay: 0
+            });
+    }
+   
+   
 };
 
 
@@ -439,8 +444,10 @@ function search () {
                     displayEvents(data);
                 }
             })
-    saveSearches(artist);
-    loadSearched();
-    autofill(); 
+            
+            saveSearches(artist);
+            loadSearched();
+           autofill(); 
     }
-autofill(); 
+
+    autofill(); 

@@ -79,10 +79,15 @@ let displayEvents = function (Edata) {
         let cardContentEl = document.createElement("div");
         cardContentEl.classList.add("card-content");
 
+        // Event Venue
+        let eventVenueEl = document.createElement("p");
+        eventVenueEl.innerText = ("Venue: " + Edata.events[i].venue.name);
+
         // Where the event is
         let eventLocationEl = document.createElement("p");
         eventLocationEl.setAttribute("coor", Edata.events[i].venue.location.lat+","+Edata.events[i].venue.location.lon);
-        eventLocationEl.innerText = "Where: " + Edata.events[i].venue.name;
+        eventLocationEl.setAttribute("id", "location");
+        eventLocationEl.innerText = "Where: " + Edata.events[i].venue.display_location;
 
         // When the event is
         let eventDateEl = document.createElement("p");
@@ -96,13 +101,16 @@ let displayEvents = function (Edata) {
         // Link to Get Tickets
         let eventLinkEl = document.createElement("div");
         var link = document.createElement('a');
-        var linkText = document.createTextNode("Get Tickets Here!");
+        var linkText = document.createTextNode("Get Tickets Here!"); 
+        eventLinkEl.classList.add("pb-4");
         link.appendChild(linkText);
         link.title = "Get Tickets Here!";
         link.href = Edata.events[i].url;
         eventLinkEl.appendChild(link);
+       
         
         // Appending info content to card content
+        cardContentEl.appendChild(eventVenueEl);
         cardContentEl.appendChild(eventLocationEl);
         cardContentEl.appendChild(eventDateEl);
         cardContentEl.appendChild(eventPriceRangeEl);
@@ -129,7 +137,7 @@ let displayEvents = function (Edata) {
         let confirmButtonEl = document.createElement("button");
         confirmButtonEl.classList.add("button", "is-info");
         confirmButtonEl.setAttribute("id", "confirm-event");
-        confirmButtonEl.innerText = "Confirm";
+        confirmButtonEl.innerText = "See Hotels Near This Event";
 
         // Appending the event button to the card button
         cardButtonEl.appendChild(confirmButtonEl);
@@ -149,7 +157,6 @@ let displayEvents = function (Edata) {
     // Appending the event results element to the results element
     results.appendChild(eventResults);
 
-    
 };
 // create and display the hotel section
 let displayHotelData = function (Hdata) {
@@ -157,7 +164,8 @@ let displayHotelData = function (Hdata) {
 // creating header/sections/outline
     if (mainSection) {
         let Hcontainer = $("<div>")
-            .addClass("container column is-8");
+            .addClass("container column is-8")
+            .attr("id","hotels");
         let Hsection = $("<div>")
             .addClass("section");
         let Htitle = $("<h1>")
@@ -302,8 +310,16 @@ $(document).on("click", "#confirm-event", function (e) {
     e.preventDefault();
 
 // Turns confirm event button into functioning new event button
-    e.target.innerText = "New Event";
-    $('#confirm-event').attr("onclick","search()")
+   
+$(this).addClass("is-hidden");
+let switchEventButtonEl = document.createElement("button");
+switchEventButtonEl.classList.add("button", "is-danger");
+switchEventButtonEl.setAttribute("id", "switch-event");
+switchEventButtonEl.innerText = "Switch Event";
+let buttonDiv = $(this).parent();
+buttonDiv.append(switchEventButtonEl);
+
+$('#switch-event').attr("onclick","search()");
 
     // Get the event Section 
     let eventSection = $(this)
@@ -328,8 +344,8 @@ $(document).on("click", "#confirm-event", function (e) {
     // Variable to get event's coordinates
     let event = $(this).parent().parent().parent();
     let eventDate = event.find("#event-date").text().split(": ")[1];
-    let eventLat = event.find("p").attr("coor").split(",")[0];
-    let eventLon = event.find("p").attr("coor").split(",")[1];
+    let eventLat = event.find("#location").attr("coor").split(",")[0];
+    let eventLon = event.find("#location").attr("coor").split(",")[1];
     let eventCoordinates = {
         lat: eventLat,
         lon: eventLon
@@ -361,6 +377,7 @@ let pastSearches = {};
 
 
 function search () {
+        let hotelQuery = document.querySelector("#hotels");
         let artist = searchBox.value;
         let artistArray = artist.split(" ");
         let fetchArtist = artistArray.join("-");
@@ -369,6 +386,10 @@ function search () {
         // remove previous HTML and create section for events
         arrow.remove();
         results.innerHTML = "";
+        if (hotelQuery) {
+        hotelQuery.remove();
+        results.classList.remove("is-4");
+        }
     
         // Fetch SeatGeek
         fetch(seatGeekURL)
@@ -381,8 +402,9 @@ function search () {
                 // If no events are avaliable or they give invalid input
                 if (data.events.length == 0) {
                     let noEventsWarning = document.createElement("h2");
-                    noEventsWarning.classList.add("title","is-4","has-text-centered");
-                    noEventsWarning.innerText = ("No Upcoming Events For This Performer, Check Your Spelling or Try Someone New!");eventResults.appendChild(noEventsWarning);
+                    noEventsWarning.classList.add("title","is-4","has-text-centered","pt-6","pb-6");
+                    noEventsWarning.innerText = ("No Upcoming Events For This Performer, Check Your Spelling or Try Someone New!");
+                    results.appendChild(noEventsWarning);
                 }
                 // If events are available
                 else {

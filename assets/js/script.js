@@ -5,6 +5,7 @@ let main = document.querySelector("#main");
 let results = document.querySelector("#results");
 let sass = document.querySelector("#sass");
 let arrow = document.querySelector("#arrow");
+let searched = [];
 
 // Clicking the search button or pressing enter - search function at the bottom of js
 searchButton.addEventListener("click", search);
@@ -370,6 +371,51 @@ $('#switch-event').attr("onclick","search()");
 });
 
 
+// create local storage function pass in searchbox field 
+let saveSearches = function (artist) {
+    localStorage.setItem("searches", searched);
+    if (artist !== "") {
+        //makes storage inputs uniform and first letter capitalized 
+        let inputname = artist.trim().toLowerCase(); 
+        let inputnames = inputname.split(" "); 
+        for( let i = 0; i < inputnames.length; i++){
+            inputnames[i] = inputnames[i][0].toUpperCase() + inputnames[i].substr(1); 
+        }
+
+        let capitalizedArtist = inputnames.join(" "); 
+        // only adds new searches - prevents duplicates in local storage
+        if(!searched.includes(capitalizedArtist)){
+
+            searched.push(capitalizedArtist);
+        }
+        // saves to local storage
+        localStorage.setItem("searches", JSON.stringify(searched));
+    }
+    // test 
+    console.log(localStorage.getItem("searches")); 
+};
+
+let loadSearched = function(){
+    searched = localStorage.getItem("searches")
+    searched = JSON.parse(searched); 
+    return searched; 
+};
+
+let autofill = function(){
+   
+    if(localStorage.getItem("searches")){
+        $("#search-box").autocomplete({
+                source: loadSearched()
+            }, {
+                autoFocus: true,
+                delay: 0
+            });
+    }
+   
+   
+};
+
+
 
 // main variables 
 let randomSass = {};
@@ -411,5 +457,10 @@ function search () {
                     displayEvents(data);
                 }
             })
-    
+            
+            saveSearches(artist);
+            loadSearched();
+           autofill(); 
     }
+
+    autofill(); 

@@ -1,54 +1,25 @@
 let searchButton = document.querySelector("#search-button");
 let searchBox = document.querySelector("#search-box");
 let heroEl = document.querySelector("#hero");
-let results = document.querySelector("#events");
+let main = document.querySelector("#main");
+let results = document.querySelector("#results");
 let sass = document.querySelector("#sass");
+let arrow = document.querySelector("#arrow");
 
-$("#confirm-event").on("click", function () {
-    console.log("clicked");
-});
+// Clicking the search button or pressing enter - search function at the bottom of js
+searchButton.addEventListener("click", search);
 
-// Clicking the search button and fetching the events
-searchButton.addEventListener("click", function (event) {
-    event.preventDefault();
-    let artist = searchBox.value;
-    let artistArray = artist.split(" ");
-    let fetchArtist = artistArray.join("-");
-    let seatGeekURL = `https://api.seatgeek.com/2/events?performers.slug=${fetchArtist}&client_id=MjY2Mjk4MjN8MTY1MDM4NDgyMi4wNDE2NTU1`;
+searchBox.addEventListener("keyup", function(event){
+    if(event.keyCode === 13){
+        search()
+    }
+})
 
-    results.innerHTML = "";
-    let eventResults = document.createElement("div");
-    results.appendChild(eventResults);
-    eventResults.classList.add("section","is-medium");
-
-    fetch(seatGeekURL)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data);
-
-            // If no events are avaliable or they give invalid input
-            if (data.events.length == 0) {
-                let noEventsWarning = document.createElement("h2");
-                noEventsWarning.classList.add("title","is-4","has-text-centered");
-                noEventsWarning.innerText = ("No Upcoming Events For This Performer, Check Your Spelling or Try Someone New!");eventResults.appendChild(noEventsWarning);
-            }
-            // If events are available
-            else {
-                displayEvents(data);
-            }
-        })
-
-});
-
+// Creates and displays the events column
 let displayEvents = function (Edata) {
     // Making the hero section smaller to fit the events
     heroEl.classList.remove("is-fullheight");
     heroEl.classList.add("is-small");
-
-    // Clearing sass and arrow
-    results.innerHTML = "";
 
     // Creating the div for the events
     let eventResults = document.createElement("div");
@@ -108,24 +79,42 @@ let displayEvents = function (Edata) {
         let cardContentEl = document.createElement("div");
         cardContentEl.classList.add("card-content");
 
+        // Event Venue
+        let eventVenueEl = document.createElement("p");
+        eventVenueEl.innerText = ("Venue: " + Edata.events[i].venue.name);
+
         // Where the event is
         let eventLocationEl = document.createElement("p");
         eventLocationEl.setAttribute("coor", Edata.events[i].venue.location.lat+","+Edata.events[i].venue.location.lon);
-        eventLocationEl.innerText = "Where: " + Edata.events[i].venue.name;
+        eventLocationEl.setAttribute("id", "location");
+        eventLocationEl.innerText = "Where: " + Edata.events[i].venue.display_location;
 
         // When the event is
         let eventDateEl = document.createElement("p");
         eventDateEl.setAttribute("id", "event-date");
         eventDateEl.innerText = "When: " + moment.utc(Edata.events[i].datetime_utc).format("MMMM Do YYYY");
 
-        // Average ticket price
-        let eventPriceEl = document.createElement("p");
-        eventPriceEl.innerText = "Average Ticket Price: $" + Edata.events[i].stats.average_price;
+        // Ticket Price Range
+        let eventPriceRangeEl = document.createElement("p");
+        eventPriceRangeEl.innerText = "Ticket Price Range: $" + (Edata.events[i].stats.lowest_price || "N/A") + " - $" + (Edata.events[i].stats.highest_price || "N/A");
 
+        // Link to Get Tickets
+        let eventLinkEl = document.createElement("div");
+        var link = document.createElement('a');
+        var linkText = document.createTextNode("Get Tickets Here!"); 
+        eventLinkEl.classList.add("pb-4");
+        link.appendChild(linkText);
+        link.title = "Get Tickets Here!";
+        link.href = Edata.events[i].url;
+        eventLinkEl.appendChild(link);
+       
+        
         // Appending info content to card content
+        cardContentEl.appendChild(eventVenueEl);
         cardContentEl.appendChild(eventLocationEl);
         cardContentEl.appendChild(eventDateEl);
-        cardContentEl.appendChild(eventPriceEl);
+        cardContentEl.appendChild(eventPriceRangeEl);
+        cardContentEl.appendChild(eventLinkEl);
 
         // Appending card content to content column
         contentColumnEl.appendChild(cardContentEl);
@@ -148,7 +137,7 @@ let displayEvents = function (Edata) {
         let confirmButtonEl = document.createElement("button");
         confirmButtonEl.classList.add("button", "is-info");
         confirmButtonEl.setAttribute("id", "confirm-event");
-        confirmButtonEl.innerText = "Confirm";
+        confirmButtonEl.innerText = "See Hotels Near This Event";
 
         // Appending the event button to the card button
         cardButtonEl.appendChild(confirmButtonEl);
@@ -168,23 +157,24 @@ let displayEvents = function (Edata) {
     // Appending the event results element to the results element
     results.appendChild(eventResults);
 
-    
 };
-
+// create and display the hotel section
 let displayHotelData = function (Hdata) {
     let mainSection = $("#main");
+// creating header/sections/outline
     if (mainSection) {
-        let Hcontainter = $("<div>")
-            .addClass("container column is-8");
+        let Hcontainer = $("<div>")
+            .addClass("container column is-8")
+            .attr("id","hotels");
         let Hsection = $("<div>")
             .addClass("section");
         let Htitle = $("<h1>")
             .addClass("subtitle is-4")
             .text("Please select a hotel:");
-        
         Hsection.append(Htitle);
-        Hcontainter.append(Hsection);
+        Hcontainer.append(Hsection);
 
+// Creating hotel cards
         for (let i = 0; i < 10; i++) {
             let HCard = $("<div>")
                 .addClass("card");
@@ -271,7 +261,7 @@ let displayHotelData = function (Hdata) {
             HCard.append(HCardContent);
             Hsection.append(HCard);
         }
-        mainSection.append(Hcontainter);
+        mainSection.append(Hcontainer);
         
     }
     else {
@@ -316,7 +306,21 @@ let getHotelData = function (coordinates, checkInDate) {
 };
 
 // Event listener after confirming a specific event
-$(document).on("click", "#confirm-event", function () {
+$(document).on("click", "#confirm-event", function (e) {
+    e.preventDefault();
+
+// Turns confirm event button into functioning new event button
+   
+$(this).addClass("is-hidden");
+let switchEventButtonEl = document.createElement("button");
+switchEventButtonEl.classList.add("button", "is-danger");
+switchEventButtonEl.setAttribute("id", "switch-event");
+switchEventButtonEl.innerText = "Switch Event";
+let buttonDiv = $(this).parent();
+buttonDiv.append(switchEventButtonEl);
+
+$('#switch-event').attr("onclick","search()");
+
     // Get the event Section 
     let eventSection = $(this)
         .parent()
@@ -340,15 +344,15 @@ $(document).on("click", "#confirm-event", function () {
     // Variable to get event's coordinates
     let event = $(this).parent().parent().parent();
     let eventDate = event.find("#event-date").text().split(": ")[1];
-    let eventLat = event.find("p").attr("coor").split(",")[0];
-    let eventLon = event.find("p").attr("coor").split(",")[1];
+    let eventLat = event.find("#location").attr("coor").split(",")[0];
+    let eventLon = event.find("#location").attr("coor").split(",")[1];
     let eventCoordinates = {
         lat: eventLat,
         lon: eventLon
     };
 
     // Re-create event section 
-    let mainDiv = document.querySelector("#events");
+    let mainDiv = document.querySelector("#results");
     let sectionTxt = $("<h1>")
         .addClass("title")
         .text("Event:");
@@ -372,3 +376,40 @@ let randomSass = {};
 let pastSearches = {};
 
 
+function search () {
+        let hotelQuery = document.querySelector("#hotels");
+        let artist = searchBox.value;
+        let artistArray = artist.split(" ");
+        let fetchArtist = artistArray.join("-");
+        let seatGeekURL = `https://api.seatgeek.com/2/events?performers.slug=${fetchArtist}&client_id=MjY2Mjk4MjN8MTY1MDM4NDgyMi4wNDE2NTU1`;
+    
+        // remove previous HTML and create section for events
+        arrow.remove();
+        results.innerHTML = "";
+        if (hotelQuery) {
+        hotelQuery.remove();
+        results.classList.remove("is-4");
+        }
+    
+        // Fetch SeatGeek
+        fetch(seatGeekURL)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                console.log(data);
+    
+                // If no events are avaliable or they give invalid input
+                if (data.events.length == 0) {
+                    let noEventsWarning = document.createElement("h2");
+                    noEventsWarning.classList.add("title","is-4","has-text-centered","pt-6","pb-6");
+                    noEventsWarning.innerText = ("No Upcoming Events For This Performer, Check Your Spelling or Try Someone New!");
+                    results.appendChild(noEventsWarning);
+                }
+                // If events are available
+                else {
+                    displayEvents(data);
+                }
+            })
+    
+    }

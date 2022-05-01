@@ -321,7 +321,12 @@ let getHotelData = function (coordinates, checkInDate) {
                 }
             });
         } else {
-            console.log("Error in fetching data");
+            let mainDiv = document.querySelector("#results");
+            mainDiv.classList.remove("is-4");
+            let noResults = document.createElement("h1");
+            noResults.classList.add("title", "is-5", "has-text-centered", "pt-0");
+            noResults.textContent = "We were unable to find any hotels with available rooms near the event location.";
+            mainDiv.append(noResults);
         }
     });
 };

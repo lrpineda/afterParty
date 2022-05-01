@@ -104,6 +104,7 @@ let displayEvents = function (Edata) {
         var link = document.createElement('a');
         var linkText = document.createTextNode("Get Tickets Here!"); 
         eventLinkEl.classList.add("pb-4");
+        link.setAttribute("target", "_blank");
         link.appendChild(linkText);
         link.title = "Get Tickets Here!";
         link.href = Edata.events[i].url;

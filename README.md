@@ -1,12 +1,12 @@
-# app name
+# App Name
 
 After Party!
 
-# Criteria met
+# Criteria Met
 
 This website is a great tool to be able to find events, and hotels in an area, all in one place, so you don't need to waste time searching multiple websites!
 
-# Resources used
+# Resources Used
 
 https://www.pluralsight.com/
 
@@ -22,7 +22,7 @@ https://rapidapi.com/blog/best-travel-apis-guide/?utm_source=google&utm_medium=c
 
 https://rapidapi.com/tipsters/api/booking-com
 
-# Technologies used
+# Technologies Used
 
 - Bulma
 - HTML
@@ -34,6 +34,10 @@ https://rapidapi.com/tipsters/api/booking-com
 - Font Awesome
 - Adobe Fonts
 
-# Deployed project
+# Deployed Project
+
+https://lrpineda.github.io/afterParty/
 
 # Screenshot
+
+! [Imgur](https://i.imgur.com/EgIxHOZ.png)

@@ -40,4 +40,4 @@ https://lrpineda.github.io/afterParty/
 
 # Screenshot
 
-! [Imgur](https://i.imgur.com/EgIxHOZ.png)
+![Imgur](https://i.imgur.com/EgIxHOZ.png)

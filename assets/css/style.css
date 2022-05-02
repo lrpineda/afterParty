@@ -1,0 +1,40 @@
+.new-event {
+    border: solid black 3px;
+    margin: 10px;
+}
+.headerBg {
+    background-image: url( "../images/concert-crowd.jpeg") !important;
+    color: rgb(255, 255, 255) !important;; 
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+    background-position: 80% !important;
+    z-index: 9999 !important;
+}
+.heroBg {
+     background-image: url( "../images/concert-crowd.jpeg") !important;
+     background-size: cover !important;
+     background-position: center !important;
+     background-attachment: fixed !important;
+     background-position: 80% !important;
+}
+header h1 {
+    font-family: bungee, sans-serif;;
+    font-weight: 400;
+    font-style: normal;
+    text-shadow: 0px 0px 10px rgb(255, 255, 255);
+}
+header h1 a{
+    text-decoration: none !important;
+    color: rgb(255, 255, 255) !important;
+}
+.blue {
+    color: rgb(255, 255, 0) !important;
+    text-shadow: 0px 0px 10px rgb(195, 192, 14);
+}
+.imageSize {
+    width: 200px !important;
+    height: 200px !important;
+}
